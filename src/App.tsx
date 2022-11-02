@@ -1,5 +1,4 @@
 import { todoState } from "atoms";
-import { memo } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -37,17 +36,7 @@ function App() {
             {(drop) => (
               <Board ref={drop.innerRef} {...drop.droppableProps}>
                 {todos.map((todo, index) => (
-                  <Draggable draggableId={todo} index={index} key={todo}>
-                    {(drag) => (
-                      <Card
-                        ref={drag.innerRef}
-                        {...drag.dragHandleProps}
-                        {...drag.draggableProps}
-                      >
-                        {todo}
-                      </Card>
-                    )}
-                  </Draggable>
+ 
                 ))}
                 {drop.placeholder}
               </Board>
@@ -85,12 +74,6 @@ const Board = styled.div`
   min-height: 200px;
 `;
 
-const Card = styled.div`
-  background: ${(props) => props.theme.cardColor};
-  color: ${(props) => props.theme.textColor};
-  padding: 5px 10px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-`;
 
-export default memo(App);
+
+export default App;
