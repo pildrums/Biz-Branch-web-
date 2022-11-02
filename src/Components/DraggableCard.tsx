@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
@@ -28,6 +29,8 @@ const Card = styled.div`
   padding: 5px 10px;
   margin-bottom: 5px;
   border-radius: 5px;
+  // 블록 금지(임시)
+  user-select: none;
 `;
 
-export default DraggableCard;
+export default memo(DraggableCard);

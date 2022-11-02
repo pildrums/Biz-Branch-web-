@@ -1,7 +1,7 @@
 import { todoState } from "atoms";
+import DraggableCard from "Components/DraggableCard";
 import {
   DragDropContext,
-  Draggable,
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
@@ -36,7 +36,7 @@ function App() {
             {(drop) => (
               <Board ref={drop.innerRef} {...drop.droppableProps}>
                 {todos.map((todo, index) => (
- 
+                  <DraggableCard todo={todo} index={index} key={todo} />
                 ))}
                 {drop.placeholder}
               </Board>
@@ -73,7 +73,5 @@ const Board = styled.div`
   border-radius: 5px;
   min-height: 200px;
 `;
-
-
 
 export default App;
