@@ -9,16 +9,19 @@ interface IBoardProps {
 
 function Board({ todos, boardId }: IBoardProps) {
   return (
-    <Droppable droppableId={boardId}>
-      {(drop) => (
-        <Container ref={drop.innerRef} {...drop.droppableProps}>
-          {todos.map((todo, index) => (
-            <DraggableCard todo={todo} index={index} key={todo} />
-          ))}
-          {drop.placeholder}
-        </Container>
-      )}
-    </Droppable>
+    <Container>
+      <Title>{boardId}</Title>
+      <Droppable droppableId={boardId}>
+        {(drop) => (
+          <div ref={drop.innerRef} {...drop.droppableProps}>
+            {todos.map((todo, index) => (
+              <DraggableCard todo={todo} index={index} key={todo} />
+            ))}
+            {drop.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </Container>
   );
 }
 
@@ -29,6 +32,13 @@ const Container = styled.div`
   padding: 20px 10px;
   border-radius: 5px;
   min-height: 200px;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 18px;
 `;
 
 export default Board;

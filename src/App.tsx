@@ -11,16 +11,27 @@ function App() {
   const [todos, setTodos] = useRecoilState(todoState);
 
   // function
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+  const onDragEnd = (info: DropResult) => {
+    console.log(info);
+    const { destination, draggableId, source } = info;
+
+    // non dragging
     if (!destination) return;
-    // setTodos((current) => {
-    //   const copyTodos = [...current];
-    //   // 1) Delete item on source.index
-    //   copyTodos.splice(source.index, 1);
-    //   // 2) Put back the item on the destination.index
-    //   copyTodos.splice(destination?.index, 0, draggableId);
-    //   return copyTodos;
-    // });
+
+    // same board movement
+    if (destination?.droppableId === source.droppableId) {
+      setTodos((current) => {
+        const boardCopy = [...current[source.droppableId]];
+        // 1) Delete item on source.index
+        boardCopy.splice(source.index, 1);
+        // 2) Put back the item on the destination.index
+        boardCopy.splice(destination?.index, 0, draggableId);
+        return {
+          ...current,
+          [source.droppableId]: boardCopy,
+        };
+      });
+    }
   };
 
   // render
