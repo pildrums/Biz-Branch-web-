@@ -10,11 +10,12 @@ interface IDraggableCardProps {
 function DraggableCard({ todo, index }: IDraggableCardProps) {
   return (
     <Draggable draggableId={todo} index={index} key={todo}>
-      {(drag) => (
+      {(drag, snapshot) => (
         <Card
           ref={drag.innerRef}
           {...drag.dragHandleProps}
           {...drag.draggableProps}
+          isDragging={snapshot.isDragging}
         >
           {todo}
         </Card>
@@ -23,12 +24,15 @@ function DraggableCard({ todo, index }: IDraggableCardProps) {
   );
 }
 
-const Card = styled.div`
-  background: ${(props) => props.theme.cardColor};
+const Card = styled.div<{ isDragging: boolean }>`
+  background: ${(props) =>
+    props.isDragging ? "#74b9ff" : props.theme.cardColor};
   color: ${(props) => props.theme.textColor};
   padding: 5px 10px;
   margin-bottom: 5px;
   border-radius: 5px;
+  box-shadow: ${(props) =>
+    props.isDragging ? "0 2px 5px rgba(0, 0, 0, 0.2)" : "none"};
   // 블록 금지(임시)
   user-select: none;
 `;

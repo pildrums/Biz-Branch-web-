@@ -38,8 +38,7 @@ function Board({ todos, boardId }: IBoardProps) {
 const Container = styled.div`
   background: ${(props) => props.theme.boardColor};
   color: ${(props) => props.theme.textColor};
-  padding-top: 30px;
-  padding: 20px 10px;
+  padding-top: 10px;
   border-radius: 5px;
   min-height: 300px;
   display: flex;
@@ -56,13 +55,14 @@ const Title = styled.h1`
 const Area = styled.div<IAreaProps>`
   background: ${(props) =>
     props.isDraggingOver
-      ? "rgba(255, 255, 255, 0.1)"
+      ? props.theme.dragColor
       : props.isDraggingFromThis
-      ? "rgba(0, 0, 0, 0.2)"
+      ? props.theme.dropColor
       : "none"};
   flex-grow: 1;
   border-radius: inherit;
   transition: background 0.3s ease-in-out;
+  padding: 20px;
 `;
 
 export default Board;

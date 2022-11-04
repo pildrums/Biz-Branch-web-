@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <RecoilRoot>
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
       <GlobalStyle />
       <App />
     </ThemeProvider>
