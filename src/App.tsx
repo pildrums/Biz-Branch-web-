@@ -1,10 +1,6 @@
 import { todoState } from "atoms";
-import DraggableCard from "Components/DraggableCard";
-import {
-  DragDropContext,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
+import Board from "Components/Boards";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
@@ -17,14 +13,14 @@ function App() {
   // function
   const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
     if (!destination) return;
-    setTodos((current) => {
-      const copyTodos = [...current];
-      // 1) Delete item on source.index
-      copyTodos.splice(source.index, 1);
-      // 2) Put back the item on the destination.index
-      copyTodos.splice(destination?.index, 0, draggableId);
-      return copyTodos;
-    });
+    // setTodos((current) => {
+    //   const copyTodos = [...current];
+    //   // 1) Delete item on source.index
+    //   copyTodos.splice(source.index, 1);
+    //   // 2) Put back the item on the destination.index
+    //   copyTodos.splice(destination?.index, 0, draggableId);
+    //   return copyTodos;
+    // });
   };
 
   // render
@@ -32,16 +28,9 @@ function App() {
     <DragDropContext onDragEnd={onDragEnd}>
       <Container>
         <Boards>
-          <Droppable droppableId="one">
-            {(drop) => (
-              <Board ref={drop.innerRef} {...drop.droppableProps}>
-                {todos.map((todo, index) => (
-                  <DraggableCard todo={todo} index={index} key={todo} />
-                ))}
-                {drop.placeholder}
-              </Board>
-            )}
-          </Droppable>
+          {Object.keys(todos).map((boardId) => (
+            <Board boardId={boardId} key={boardId} todos={todos[boardId]} />
+          ))}
         </Boards>
       </Container>
     </DragDropContext>
@@ -51,7 +40,7 @@ function App() {
 // style
 const Container = styled.div`
   display: flex;
-  max-width: 480px;
+  max-width: 680px;
   width: 100%;
   margin: 0 auto;
   justify-content: center;
@@ -62,16 +51,8 @@ const Container = styled.div`
 const Boards = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(1, 1fr);
-`;
-
-const Board = styled.div`
-  background: ${(props) => props.theme.boardColor};
-  color: ${(props) => props.theme.textColor};
-  padding-top: 30px;
-  padding: 20px 10px;
-  border-radius: 5px;
-  min-height: 200px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 `;
 
 export default App;
