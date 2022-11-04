@@ -7,18 +7,28 @@ interface IBoardProps {
   boardId: string;
 }
 
+interface IAreaProps {
+  isDraggingOver: boolean;
+  isDraggingFromThis: boolean;
+}
+
 function Board({ todos, boardId }: IBoardProps) {
   return (
     <Container>
       <Title>{boardId}</Title>
       <Droppable droppableId={boardId}>
-        {(drop) => (
-          <div ref={drop.innerRef} {...drop.droppableProps}>
+        {(drop, info) => (
+          <Area
+            isDraggingOver={info.isDraggingOver}
+            isDraggingFromThis={Boolean(info.draggingFromThisWith)}
+            ref={drop.innerRef}
+            {...drop.droppableProps}
+          >
             {todos.map((todo, index) => (
               <DraggableCard todo={todo} index={index} key={todo} />
             ))}
             {drop.placeholder}
-          </div>
+          </Area>
         )}
       </Droppable>
     </Container>
@@ -31,7 +41,9 @@ const Container = styled.div`
   padding-top: 30px;
   padding: 20px 10px;
   border-radius: 5px;
-  min-height: 200px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.h1`
@@ -39,6 +51,18 @@ const Title = styled.h1`
   font-weight: 700;
   margin-bottom: 10px;
   font-size: 18px;
+`;
+
+const Area = styled.div<IAreaProps>`
+  background: ${(props) =>
+    props.isDraggingOver
+      ? "rgba(255, 255, 255, 0.1)"
+      : props.isDraggingFromThis
+      ? "rgba(0, 0, 0, 0.2)"
+      : "none"};
+  flex-grow: 1;
+  border-radius: inherit;
+  transition: background 0.3s ease-in-out;
 `;
 
 export default Board;
