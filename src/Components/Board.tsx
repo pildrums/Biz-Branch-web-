@@ -30,7 +30,8 @@ function Board({ todos, boardId }: IBoardProps) {
     setTodos((allBoards) => {
       return {
         ...allBoards,
-        [boardId]: [...allBoards[boardId], newTodo],
+        [boardId]: [newTodo, ...allBoards[boardId]],
+        // [boardId]: [...allBoards[boardId], newTodo],
       };
     });
     setValue("todo", "");
