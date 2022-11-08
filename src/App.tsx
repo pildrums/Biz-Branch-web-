@@ -13,7 +13,7 @@ function App() {
   // function
   const onDragEnd = (info: DropResult) => {
     console.log(info);
-    const { destination, draggableId, source } = info;
+    const { destination, source } = info;
 
     // non movement
     if (!destination) return;
