@@ -15,7 +15,7 @@ function App() {
     console.log(info);
     const { destination, draggableId, source } = info;
 
-    // non dragging
+    // non movement
     if (!destination) return;
 
     // same board movement
@@ -25,26 +25,27 @@ function App() {
         // 1) Delete item on source.index
         boardCopy.splice(source.index, 1);
         // 2) Put back the item on the destination.index
-        boardCopy.splice(destination?.index, 0, draggableId);
+        boardCopy.splice(destination.index, 0, draggableId);
         return {
           ...current,
           [source.droppableId]: boardCopy,
         };
       });
     }
+
     // cross board movement
-    if (destination.droppableId !== source.droppableId) {
+    if (destination?.droppableId !== source.droppableId) {
       setTodos((current) => {
         // 1) Delete item on source.index
         const sourceBoard = [...current[source.droppableId]];
         sourceBoard.splice(source.index, 1);
         // 2) Put back the item on the destination.index
-        const destinationBoard = [...current[destination.droppableId]];
-        destinationBoard.splice(destination.index, 0, draggableId);
+        const destinationBoard = [...current[destination?.droppableId]];
+        destinationBoard.splice(destination?.index, 0, draggableId);
         return {
           ...current,
           [source.droppableId]: sourceBoard,
-          [destination.droppableId]: destinationBoard,
+          [destination?.droppableId]: destinationBoard,
         };
       });
     }

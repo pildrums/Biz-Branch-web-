@@ -1,9 +1,11 @@
+import { ITodo } from "atoms";
 import { Droppable } from "react-beautiful-dnd";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
 
 interface IBoardProps {
-  todos: string[];
+  todos: ITodo[];
   boardId: string;
 }
 
@@ -12,10 +14,25 @@ interface IAreaProps {
   isDraggingFromThis: boolean;
 }
 
+interface IForm {
+  todo: string;
+}
+
 function Board({ todos, boardId }: IBoardProps) {
+  const { register, setValue, handleSubmit } = useForm<IForm>();
+  const onValid = ({ todo }: IForm) => {
+    setValue("todo", "");
+  };
   return (
     <Container>
       <Title>{boardId}</Title>
+      <Form onSubmit={handleSubmit(onValid)}>
+        <input
+          {...register("todo", { required: true })}
+          type="text"
+          placeholder={`Add task on ${boardId}`}
+        />
+      </Form>
       <Droppable droppableId={boardId}>
         {(drop, info) => (
           <Area
@@ -25,7 +42,12 @@ function Board({ todos, boardId }: IBoardProps) {
             {...drop.droppableProps}
           >
             {todos.map((todo, index) => (
-              <DraggableCard todo={todo} index={index} key={todo} />
+              <DraggableCard
+                todoId={todo.id}
+                todoText={todo.text}
+                index={index}
+                key={todo.id}
+              />
             ))}
             {drop.placeholder}
           </Area>
@@ -63,6 +85,13 @@ const Area = styled.div<IAreaProps>`
   border-radius: inherit;
   transition: background 0.3s ease-in-out;
   padding: 20px;
+`;
+
+const Form = styled.form`
+  width: 100%;
+  input {
+    width: inherit;
+  }
 `;
 
 export default Board;
